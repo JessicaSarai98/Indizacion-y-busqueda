@@ -22,6 +22,7 @@ foreach($_FILES["archivos"]['tmp_name'] as $key => $tmp_name)
 
 $cont = 0;
 $elemento = scandir($directorio);
+var_dump($elemento);
 //Se leen todos los archivos que tiene la carpeta archivos
 for ($i=0; $i < count($elemento)  ; $i++) { 
   if( $elemento[$i] != "." && $elemento[$i] != ".."){
@@ -35,7 +36,9 @@ closedir($dir); //Cerramos el directorio de destino
 function buildInvertedIndex($filenames){
   $invertedIndex = []; 
   foreach($filenames as $filename) {
-    $data = file_get_contents($filename); 
+    $fln = "./archivos/".$filename;
+    //var_dump($fln);
+    $data = file_get_contents( $fln); 
     //obtenemos una descripcion del texto de 40 caracteres 
     $descripcion = str_split($data, 40);
     //inicializamos el contador de las frecuencias
@@ -129,13 +132,20 @@ foreach ($invertedIndex as $key => $value) {
     }
   }  
 }
+//$response = null;
+//$response2 = null;
 if ($existe == 0) {
   $sqlInsertDesc = $sqlInsertDesc.implode(', ', $filasDescripciones).";";
   $sqlInsertFrec = substr($sqlInsertFrec, 0, -1).";"; 
-  $conn->query($sqlInsertFrec);
-  $conn->query($sqlInsertDesc);
+  var_dump($sqlInsertFrec);
+  var_dump($sqlInsertDesc);
+  $response = $conn->query($sqlInsertFrec);
+  $response2 = $conn->query($sqlInsertDesc);
 } else {
-  $conn->query($sqlUpdate);
+  var_dump($sqlUpdate);
+  $response = $conn->query($sqlUpdate);
 }
+//var_dump($response);
+//var_dump($response2);
 $conn->close();
 ?>

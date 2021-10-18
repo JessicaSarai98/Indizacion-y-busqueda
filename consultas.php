@@ -1,7 +1,7 @@
 <?php
 
-//$searchData = $_GET["buscar"];
-$searchData = "Olympics Games";
+$searchData = $_GET["buscar"];
+//	$searchData = "Olympics Games";
 $servername = "localhost";
 $operador = "";
 $activadoPATRON = false;
@@ -57,6 +57,7 @@ $palabras = explode(" ", $searchData);
 //manipulo la info que me regresa la consulta sql, recorriendo las filas y las columnas para sacar la frecuencia invertida de cada una de las palabras de la consulta y lo almaceno en otro arreglo con key = nombre de la tabla
 //echo $sqlDatos;
 $resultQuestion = $conn->query($sqlDatos);
+//var_dump($resultQuestion);
 while ($row = $resultQuestion->fetch_assoc()) {
 	$cont = 0;
 	$log = log(($resultQuestion->field_count-4)/$row['documentos']);
@@ -82,8 +83,9 @@ foreach ($frecuenciatotal as $key => $value) {
 		$sqlDescripcionArray[] = " NomDoc like '".$key."' and termino like '%".$searchData."%'";
 	} 
 }
+//echo $sqlDescripcion.' <br/>';
 $sqlDescripcion = $sqlDescripcion.implode(' or ', $sqlDescripcionArray).";";
-$sqlDescripcion = "SELECT * from descripciones WHERE termino like 'olympics' and NomDoc like 'archivo4'
+/*$sqlDescripcion = "SELECT * from descripciones WHERE termino like 'olympics' and NomDoc like 'archivo4'
 union SELECT * from descripciones WHERE termino like 'olympics' and NomDoc like 'archivo6'
 union SELECT * from descripciones WHERE termino like 'olympics' and NomDoc like 'archivo1'
 union SELECT * from descripciones WHERE termino like 'olympics' and NomDoc like 'archivo5'
@@ -92,9 +94,10 @@ union SELECT * from descripciones WHERE termino like 'olympics' and NomDoc like 
 union SELECT * from descripciones WHERE termino like 'olympics' and NomDoc like 'archivo8'
 union SELECT * from descripciones WHERE termino like 'games' and NomDoc like 'archivo9'
 union SELECT * from descripciones WHERE termino like 'olympics' and NomDoc like 'archivo7'
-union SELECT * from descripciones WHERE termino like 'games' and NomDoc like 'archivo10'";
-//echo $sqlDescripcion;
+union SELECT * from descripciones WHERE termino like 'games' and NomDoc like 'archivo10'";*/
+//echo $sqlDescripcion.' <br/>';
 $result = $conn->query($sqlDescripcion);
+//var_dump($result);
 if (!$result || $result ->num_rows == 0 ) {
 	echo "No hay resultados";
 } else if ($result ->num_rows > 0) {
