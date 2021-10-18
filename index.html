@@ -8,7 +8,9 @@
 		function buscar(){
 			let buscar = document.getElementById("buscar").value;
 			var req = new XMLHttpRequest();
-	        let url = new URL('http://localhost/ADA06/BRIW/consultas.php');
+			//cambiar por tu carpeta donde se encuentre el proyecto:
+			//ejemplo: http://localhost/aqui_tu_direccion_de_carpetas/cosulta.php 
+	        let url = new URL('http://localhost/search_retrieve/Indizacion-y-busqueda/consultas.php');
 	        url.searchParams.set('buscar', buscar);
 	        req.open('GET', url); 
 	        req.send();
