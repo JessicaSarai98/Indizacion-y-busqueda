@@ -14,7 +14,7 @@
 	        url.searchParams.set('buscar', buscar);
 	        req.open('GET', url); 
 	        req.send();
-	        console.log(url);
+	        //console.log(url);
 	        req.onload = function() {
 	          const respuesta = req.responseText;
 	          console.log(respuesta);
@@ -47,8 +47,10 @@
 	        for (var i = 0; i < arrarRespuesta.length-1; i++) {
 	          myArticle = document.createElement('div');
 	          myPara1 = document.createElement('a');
-
-	          myPara1.textContent = arrarRespuesta[i];
+			
+			  let value = arrarRespuesta[i].split("|");
+	          myPara1.textContent = value[0];
+			  myPara1.setAttribute("href", value[1] );
 	              
 	          myArticle.className = 'field creado';
 	          myArticle.style = 'aling: center'
@@ -70,7 +72,6 @@
 		<div class="field" id="searchform">
 			<input type="text" name="buscar" id="buscar" placeholder="Buscando...">
 			<button type="submit" id="buscador" onclick="buscar()" name="buscador">Buscar</button>
-			
 		</div>
 </body>
 </html>

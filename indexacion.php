@@ -22,7 +22,7 @@ foreach($_FILES["archivos"]['tmp_name'] as $key => $tmp_name)
 
 $cont = 0;
 $elemento = scandir($directorio);
-var_dump($elemento);
+//var_dump($elemento);
 //Se leen todos los archivos que tiene la carpeta archivos
 for ($i=0; $i < count($elemento)  ; $i++) { 
   if( $elemento[$i] != "." && $elemento[$i] != ".."){
@@ -97,8 +97,11 @@ foreach ($nombresArchivos as $key => $value) {
     else  $sqlInsertFrec = $sqlInsertFrec.$columnas[0].", ";
 }
 //aquí se estan agregando los valores del termino, #doc donde aparece, frecuencia total y las separadas
+//var_dump($invertedIndex);
 foreach ($invertedIndex as $key => $value) {
 //************* lo primero es preguntar si existe ese termino en la base de datos
+  //echo "k1: ".$key;  
+  //echo "val: ".$value;
   $result = $conn->query("SELECT * FROM tablafrecuencias2 WHERE termino = '".$key."'");
   if (!$result || $result ->num_rows == 0 ) {
     //no existe, entonces hace el insert
@@ -125,24 +128,29 @@ foreach ($invertedIndex as $key => $value) {
     $sqlUpdate = $sqlUpdate." documentos = '".count($value['nombresArchivos'])."', ";
     //echo "id: " . $row["id"]. " - Name: " . $row["product_name"]. " - category: " . $row["category"]. " - quantity_per_unit: " .$row["quantity_per_unit"]. " <br>";
     if (isset($nuevasTablas)) {
+      //var_dump($nuevasTablas);
       foreach ($nuevasTablas as $key2 => $tablas) {
+        //echo "k: ".$key2;
+        //echo "table: ".$tablas;
         $DatosUpdate[] = $tablas." = '".$value[$tablas]['frecuencia']."'";
       }
       $sqlUpdate = $sqlUpdate.implode(', ', $DatosUpdate).";";
+      //var_dump($DatosUpdate);
     }
   }  
 }
 //$response = null;
 //$response2 = null;
+//echo "query: ".$sqlUpdate;
 if ($existe == 0) {
   $sqlInsertDesc = $sqlInsertDesc.implode(', ', $filasDescripciones).";";
   $sqlInsertFrec = substr($sqlInsertFrec, 0, -1).";"; 
-  var_dump($sqlInsertFrec);
-  var_dump($sqlInsertDesc);
+  //var_dump($sqlInsertFrec);
+  //var_dump($sqlInsertDesc);
   $response = $conn->query($sqlInsertFrec);
   $response2 = $conn->query($sqlInsertDesc);
 } else {
-  var_dump($sqlUpdate);
+  //var_dump($sqlUpdate);
   $response = $conn->query($sqlUpdate);
 }
 //var_dump($response);
