@@ -104,7 +104,9 @@ if (!$result || $result ->num_rows == 0 ) {
 	while($row = $result->fetch_assoc()) {
 		foreach ($frecuenciatotal as $key => $value) {
 			if($key == $row["NomDoc"]){
-				echo "Archivo: ".$row["NomDoc"]. ".txt - Descripción: ".$row["descripcion"]." - Frecuencia: ".$frecuenciatotal[$row["NomDoc"]];
+				echo "Archivo: -".$row["NomDoc"]. ".txt - Descripción: ".$row["descripcion"]." - Frecuencia: "
+				.$frecuenciatotal[$row["NomDoc"]];
+				echo "|http://localhost/search_retrieve/Indizacion-y-busqueda/download.php?path=archivos/".$row["NomDoc"].".txt";
 				echo " <br>";
 			}
 		}					
