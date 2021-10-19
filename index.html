@@ -9,7 +9,7 @@
 			let buscar = document.getElementById("buscar").value;
 			var req = new XMLHttpRequest();
 			//cambiar por tu carpeta donde se encuentre el proyecto:
-			//ejemplo: http://localhost/aqui_tu_direccion_de_carpetas/cosulta.php 
+			//ejemplo: http://localhost/aqui_tu_direccion_de_carpetas/consulta.php 
 	        let url = new URL('http://localhost/search_retrieve/Indizacion-y-busqueda/consultas.php');
 	        url.searchParams.set('buscar', buscar);
 	        req.open('GET', url); 

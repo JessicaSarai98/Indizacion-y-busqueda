@@ -55,9 +55,8 @@ $palabras = explode(" ", $searchData);
 		}
 	};
 //manipulo la info que me regresa la consulta sql, recorriendo las filas y las columnas para sacar la frecuencia invertida de cada una de las palabras de la consulta y lo almaceno en otro arreglo con key = nombre de la tabla
-//echo $sqlDatos;
+
 $resultQuestion = $conn->query($sqlDatos);
-//var_dump($resultQuestion);
 while ($row = $resultQuestion->fetch_assoc()) {
 	$cont = 0;
 	$log = log(($resultQuestion->field_count-4)/$row['documentos']);
@@ -66,7 +65,7 @@ while ($row = $resultQuestion->fetch_assoc()) {
 		if ($cont >= 5) $frecuenciaConsulta[$key][] = $value*$log;
 	}
 }
-//aquí hago la suma total de la frecuencia y lo almaceno en otro arreglo key = nombre de la columna. 
+//aquí se hace la suma total de la frecuencia y se almacena en otro arreglo key = nombre de la columna. 
 foreach ($frecuenciaConsulta as $NomTabla => $Valores) {
 	$frecuenciatotal[$NomTabla] = 0 ;
 	foreach ($Valores as $key => $value) {
@@ -75,7 +74,6 @@ foreach ($frecuenciaConsulta as $NomTabla => $Valores) {
 }
 //ordenamos el arreglo por el valor
 arsort($frecuenciatotal);
-//print_r($frecuenciatotal);
 //recorremos el nuevo arreglo para saber que texto se tiene que devolver
 $sqlDescripcion = " SELECT * from descripciones where";
 foreach ($frecuenciatotal as $key => $value) {
@@ -83,21 +81,8 @@ foreach ($frecuenciatotal as $key => $value) {
 		$sqlDescripcionArray[] = " NomDoc like '".$key."' and termino like '%".$searchData."%'";
 	} 
 }
-//echo $sqlDescripcion.' <br/>';
 $sqlDescripcion = $sqlDescripcion.implode(' or ', $sqlDescripcionArray).";";
-/*$sqlDescripcion = "SELECT * from descripciones WHERE termino like 'olympics' and NomDoc like 'archivo4'
-union SELECT * from descripciones WHERE termino like 'olympics' and NomDoc like 'archivo6'
-union SELECT * from descripciones WHERE termino like 'olympics' and NomDoc like 'archivo1'
-union SELECT * from descripciones WHERE termino like 'olympics' and NomDoc like 'archivo5'
-union SELECT * from descripciones WHERE termino like 'games' and NomDoc like 'archivo2'
-union SELECT * from descripciones WHERE termino like 'olympics' and NomDoc like 'archivo3'
-union SELECT * from descripciones WHERE termino like 'olympics' and NomDoc like 'archivo8'
-union SELECT * from descripciones WHERE termino like 'games' and NomDoc like 'archivo9'
-union SELECT * from descripciones WHERE termino like 'olympics' and NomDoc like 'archivo7'
-union SELECT * from descripciones WHERE termino like 'games' and NomDoc like 'archivo10'";*/
-//echo $sqlDescripcion.' <br/>';
 $result = $conn->query($sqlDescripcion);
-//var_dump($result);
 if (!$result || $result ->num_rows == 0 ) {
 	echo "No hay resultados";
 } else if ($result ->num_rows > 0) {
